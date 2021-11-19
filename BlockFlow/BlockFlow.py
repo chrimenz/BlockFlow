@@ -254,3 +254,22 @@ class Const:
     def h(self,x,u):
         return self.v
         
+class Diff_Mdl:
+    def __init__(self):
+        self.nu = 2
+        self.nx = 1
+        self.ny = 1
+    def f(self,x,u):
+        dx = np.array([0]).reshape(self.ny,1)
+        return dx
+    def h(self,x,u):
+        _u = np.array(u).reshape(self.nu,1)
+        _y = _u[0] - _u[1]
+        y = np.array(_y).reshape(self.ny,1)
+        return y 
+    
+class Diff(Block):
+    def __init__(self, dt=0.0):
+        super().__init__(Diff_Mdl(),dt=dt,solver='discrete') 
+    def step(self,u):
+        super().step(u)
